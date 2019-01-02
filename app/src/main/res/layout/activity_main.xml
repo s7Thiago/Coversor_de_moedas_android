@@ -4,103 +4,98 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center|top"
     android:orientation="vertical"
-    android:paddingTop="@dimen/root_layout_padding"
+    android:id="@+id/main_layout_container"
     tools:context=".MainActivity">
 
+    <!--Layout dos containers de resultados de coversao-->
     <LinearLayout
-        android:layout_weight="0.5"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical">
+        android:layout_marginTop="@dimen/margin_layout_values"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
-        <TextView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/valor_em_real" />
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_layout_values"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:padding="@dimen/root_layout_padding">
 
-        <EditText
-            android:id="@+id/edit_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/digite_o_valor" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_layout_values"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.5"
-                android:gravity="clip_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/valor_em_dollar"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textview_dollarvalue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_layout_values"
-                    android:gravity="center"
-                    android:text="@string/valor_em_dollar" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/converterResultsContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/root_layout_padding"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/valor_em_dollar"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textview_dollarvalue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_layout_values"
+                        android:layout_marginBottom="50dp"
+                        android:gravity="center"
+                        android:text="@string/valor_em_dollar" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/valor_em_euro"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textview_eurovalue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_layout_values"
+                        android:gravity="center"
+                        android:text="@string/valor_em_euro" />
+
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/valor_em_euro"
-                    android:textStyle="bold" />
+                    android:layout_marginStart="@dimen/margin_layout_values"
+                    android:layout_marginEnd="@dimen/margin_layout_values"
+                    android:layout_marginBottom="@dimen/margin_layout_values"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-                <TextView
-                    android:id="@+id/textview_eurovalue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_layout_values"
-                    android:gravity="center"
-                    android:text="@string/valor_em_euro" />
-            </LinearLayout>
-        </LinearLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/valor_em_real"
+                        android:inputType="numberDecimal" />
 
-    </LinearLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:gravity="bottom|center"
-        android:layout_weight="0.5"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_calculate"
-            android:layout_width="match_parent"
-            app:cornerRadius="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/calcular" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/main_bottom_navigation"
-        android:layout_width="match_parent"
-        android:background="?android:attr/windowBackground"
-        android:layout_height="wrap_content" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </LinearLayout>
