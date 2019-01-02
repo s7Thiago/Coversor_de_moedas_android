@@ -6,30 +6,36 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.google.android.material.button.MaterialButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
+    //valor das moedas
+    double dollar = 3.88,
+    euro = 4.45;
+
+//    anim
+    static final  int ANIMATIONS_DURATION = 550;
+
     //    Views
-    @BindView(R.id.button_calculate)
-    MaterialButton btnCalculate;
     @BindView(R.id.textview_dollarvalue)
     TextView textDollar;
     @BindView(R.id.textview_eurovalue)
     TextView textEuro;
     @BindView(R.id.edit_value)
     EditText editValue;
+    @BindView(R.id.converterResultsContainer)
+    View converterResultsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         clearValues(textDollar, textEuro);
         activateOnUpdateListener(true);
+
 
     }
 
@@ -48,24 +55,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Definindo o que fazer quando o botao calculate for pressionado
-    @OnClick(R.id.button_calculate)
-    public void calculateAction(View view) {
-
-        if (!(editValue.getText().toString().equals(""))) {
-            calculate();
-        } else {
-            editValue.setError(getString(R.string.erro_campo_vazio));
-        }
-    }
 
     //    Faz as conversoes de valores e exibe nos textviews
     @SuppressLint("DefaultLocale")
     void calculate() {
         double value = Double.valueOf(editValue.getText().toString());
 
-        textDollar.setText(String.format("%.2f", value * 3.88));
-        textEuro.setText(String.format("%.2f", value * 4.45));
+        textDollar.setText(String.format("%.2f", value * dollar));
+        textEuro.setText(String.format("%.2f", value * euro));
     }
 
     //    Ativa ou desativa o recurso que atualiza o valor da cotacao a medida que o usuario digita
@@ -74,13 +71,44 @@ public class MainActivity extends AppCompatActivity {
             editValue.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    btnCalculate.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     if (!(editValue.getText().toString().equals(""))) {
-                        calculate();
+
+                        if (editValue.getText().toString().length() <= 19) {
+                            calculate();
+
+//                        Reposicionando campo de texto
+                            float textSize = (float) editValue.getText().toString().length();
+                            editValue.setX((float) (editValue.getX() + (editValue.getX() * 0.5)));
+
+                            float containerY = converterResultsContainer.getY();
+
+
+//                        Adaptando o tamanho do texto
+
+                            if (textSize <= 9) {
+                                textDollar.animate()
+                                        .scaleX((float) (8 - (textSize * 0.67)))
+                                        .scaleY((float) (8 - (textSize * 0.67)))
+                                        .setDuration(ANIMATIONS_DURATION)
+                                        .setInterpolator(new AnticipateOvershootInterpolator())
+                                        .start();
+
+                                textEuro.animate()
+                                        .scaleX((float) (8 - (textSize * 0.67)))
+                                        .scaleY((float) (8 - (textSize * 0.67)))
+                                        .setDuration(ANIMATIONS_DURATION)
+                                        .setInterpolator(new AnticipateOvershootInterpolator())
+                                        .start();
+                            }
+
+                        } else {
+                            editValue.setSelected(false);
+                        }
+
                     } else {
                         editValue.setError(getString(R.string.erro_campo_vazio));
                         clearValues(textDollar, textEuro);
@@ -89,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    btnCalculate.setVisibility(View.VISIBLE);
                 }
             });
         } else {
