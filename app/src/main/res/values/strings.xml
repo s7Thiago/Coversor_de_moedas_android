@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">Coversor de moedas</string>
-    <string name="valor_em_real">Valor em Real</string>
     <string name="valor_em_dollar">Valor em Dollar</string>
     <string name="valor_em_euro">Valor em Euro</string>
     <string name="calcular">Calcular</string>
-    <string name="digite_o_valor">Digite o valor</string>
+    <string name="valor_em_real">Valor em real</string>
     <string name="erro_campo_vazio">O campo não pode estar vazio</string>
+    <string name="home">Home</string>
+    <string name="map">Map</string>
+    <string name="notifications">Notifications</string>
 </resources>
